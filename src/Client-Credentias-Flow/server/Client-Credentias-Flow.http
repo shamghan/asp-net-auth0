@@ -1,0 +1,6 @@
+@Client_Credentias_Flow_HostAddress = http://localhost:5236
+
+GET {{Client_Credentias_Flow_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

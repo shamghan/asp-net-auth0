@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/client/">
+    <Project Path="../client/Client-Credential-Flow-ClientApp/Client-Credential-Flow-ClientApp.csproj" Id="cd42d19e-fa37-4822-9693-513a3a88f9f0" />
+  </Folder>
+  <Folder Name="/server/">
+    <Project Path="Client-Credentias-Flow.csproj" />
+  </Folder>
+</Solution>
