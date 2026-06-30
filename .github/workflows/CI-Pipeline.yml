@@ -15,7 +15,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/Client-Credentias-Flow/server
+        working-directory: ../Client-Credentias-Flow.sln
 
     steps:
       - name: Checkout repository
