@@ -30,16 +30,16 @@ jobs:
         run: dotnet restore Client-Credentias-Flow.slnx
 
       - name: Check code formatting
-        run: dotnet format Client-Credentias-Flow.sln --verify-no-changes
+        run: dotnet format Client-Credentias-Flow.slnx --verify-no-changes
 
       - name: Check package vulnerabilities
         run: dotnet list package --vulnerable --include-transitive 2>&1; exit 0
 
       - name: Build
-        run: dotnet build Client-Credentias-Flow.sln --no-restore --configuration Release -warnaserror
+        run: dotnet build Client-Credentias-Flow.slnx --no-restore --configuration Release -warnaserror
 
       - name: Run tests
-        run: dotnet test Client-Credentias-Flow.sln --no-build --configuration Release --verbosity normal
+        run: dotnet test Client-Credentias-Flow.slnx --no-build --configuration Release --verbosity normal
 
       - name: Publish application
-        run: dotnet publish Client-Credentias-Flow.sln --no-build --configuration Release -o publish
+        run: dotnet publish Client-Credentias-Flow.slnx --no-build --configuration Release -o publish
