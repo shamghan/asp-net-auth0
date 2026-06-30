@@ -27,7 +27,7 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore dependencies
-        run: dotnet restore Client-Credentias-Flow.sln
+        run: dotnet restore Client-Credentias-Flow.slnx
 
       - name: Check code formatting
         run: dotnet format Client-Credentias-Flow.sln --verify-no-changes
