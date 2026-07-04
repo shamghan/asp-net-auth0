@@ -1,10 +1,35 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = builder.Configuration["Auth:Issuer"];
+                options.Audience = builder.Configuration["Auth:Audience"];
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
+                };
+            });
+
+builder.Services.AddAuthorization();
 var app = builder.Build();
+
+// 2. Enable Authentication Middleware
+// Order is critical: Authentication MUST come before Authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -31,7 +56,7 @@ app.MapGet("/weatherforecast", () =>
         .ToArray();
     return forecast;
 })
-.WithName("GetWeatherForecast");
+.WithName("GetWeatherForecast").RequireAuthorization();
 
 app.Run();
 
