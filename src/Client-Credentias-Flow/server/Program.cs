@@ -3,35 +3,30 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.Authority = builder.Configuration["Auth:Issuer"];
-                options.Audience = builder.Configuration["Auth:Audience"];
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["Auth:Issuer"];
+        options.Audience = builder.Configuration["Auth:Audience"];
 
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true
-                };
-            });
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true
+        };
+    });
 
 builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
-// 2. Enable Authentication Middleware
-// Order is critical: Authentication MUST come before Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -57,6 +52,20 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast").RequireAuthorization();
+
+app.MapGet("/", () => Results.Redirect("/api/status"))
+.WithName("RedirectToStatus");
+
+app.MapGet("/api/status", () =>
+{
+    return Results.Ok(new
+    {
+        message = "api running successfully",
+        timestamp = DateTime.UtcNow,
+        environment = app.Environment.EnvironmentName
+    });
+})
+.WithName("GetApiStatus");
 
 app.Run();
 
