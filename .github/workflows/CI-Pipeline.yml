@@ -46,23 +46,23 @@ jobs:
        
 
       - name: Restore API Gateway dependencies
-        working-directory: ./src/APIGateway/ApiGateWay
+        working-directory: ./src/APIGateway/APIGateway
         run: dotnet restore APIGateway.slnx
 
       - name: Check API Gateway code formatting
-        working-directory: ./src/APIGateway/ApiGateWay
+        working-directory: ./src/APIGateway/APIGateway
         run: dotnet format APIGateway.slnx --verify-no-changes
 
       - name: Check API Gateway package vulnerabilities
-        working-directory: ./src/APIGateway/ApiGateWay
+        working-directory: ./src/APIGateway/APIGateway
         run: dotnet list package --vulnerable --include-transitive 2>&1; exit 0
 
       - name: Build API Gateway
-        working-directory: ./src/APIGateway/ApiGateWay
+        working-directory: ./src/APIGateway/APIGateway
         run: dotnet build APIGateway.slnx --no-restore --configuration Release -warnaserror
 
       - name: Run API Gateway tests
-        working-directory: ./src/APIGateway/ApiGateWay
+        working-directory: ./src/APIGateway/APIGateway
         run: dotnet test APIGateway.slnx --no-build --configuration Release --verbosity normal
 
       - name: Publish API Gateway
